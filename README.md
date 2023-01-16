@@ -11,7 +11,7 @@ The first result is then downloaded.
 ## Setup/Installation
 (All the installation commands assume you're using Bash. If you're using PowerShell, replace `python` with `py` and you should recieve the same result)
 > Install Python 3.x (Python 3.11 was used in development)
-> Install `pytube` (to install, run `python3 -m pip install pytube`)
+> Install `pytube` (to install, run `> python3 -m pip install pytube`)
 > Install `spotipy` (to install, run `python3 -m pip install spotipy`)
 > Install `dotenv` (to install, run `python3 -m pip install python-dotenv`)
 > Clone this repo
