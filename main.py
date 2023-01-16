@@ -29,8 +29,10 @@ def init():
     CLIENTID = os.getenv("SPOTIFY_CLIENTID")
     CLIENTSECRET = os.getenv("SPOTIFY_CLIENTSECRET")
     
+    # Set a unique identifier to not have multiple dirs generated with the same dir name, we use datetime for this
     dir_identifier = datetime.datetime.now()
     dir_identifier = f"{dir_identifier.day}{dir_identifier.minute}{dir_identifier.second}{dir_identifier.month}{dir_identifier.year}"
+    
     playlistName = f"demo (save {dir_identifier})"
     playlist_link = input("Enter the playlist URL: ")
 
