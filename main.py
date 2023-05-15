@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import dotenv
 import datetime
-
+from time import sleep
 
 dotenv.load_dotenv()
 downloaded_songs = []
@@ -29,11 +29,7 @@ def init():
     CLIENTID = os.getenv("SPOTIFY_CLIENTID")
     CLIENTSECRET = os.getenv("SPOTIFY_CLIENTSECRET")
     
-    # Set a unique identifier to not have multiple dirs generated with the same dir name, we use datetime for this
-    dir_identifier = datetime.datetime.now()
-    dir_identifier = f"{dir_identifier.day}{dir_identifier.minute}{dir_identifier.second}{dir_identifier.month}{dir_identifier.year}"
-    
-    playlistName = f"demo (save {dir_identifier})"
+    playlistName = input("Enter the save directory: ")
     playlist_link = input("Enter the playlist URL: ")
 
 
@@ -48,7 +44,7 @@ def auth():
 
 def download_audio(url, fname, explicit):
     clr_trmnl(log_cur_progress)
-    ytinst = pytube.YouTube(url)
+    ytinst = pytube.YouTube(url, use_oauth=True, allow_oauth_cache=True)
     stream = ytinst.streams.filter(only_audio=True)
 
     processedfname = fname
@@ -63,6 +59,8 @@ def download_audio(url, fname, explicit):
 
 def begin_playlist_download():
     for track in spotifyinst.playlist_tracks(playlist_URI)["items"]:
+        sleep(1)
+        print("sleeping")
         tname = track["track"]["name"]
         artname = track["track"]["artists"][0]["name"]
 
@@ -72,7 +70,12 @@ def begin_playlist_download():
             searchResults.append(v.watch_url)
 
         downloaded_songs.append(f"{tname} - {artname} - Downloading...")
-        download_audio(searchResults[0], f"{tname} - {artname}", track["track"]["explicit"])
+
+        try:
+            download_audio(searchResults[0], f"{tname} - {artname}", track["track"]["explicit"])
+        except Exception as e: 
+            downloaded_songs.append(f"{tname} - {artname} - Failed to Download ({e})")
+            pass
 
 
 def main():
