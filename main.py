@@ -9,6 +9,7 @@ from time import sleep
 dotenv.load_dotenv()
 downloaded_songs = []
 explicit_tag = " (explicit)" # Appends this if the song is explicit
+skip_already_downloaded = True
 
 def clr_trmnl(on_clr_callback=None): 
     os.system("cls" if os.name == "nt" else "clear")
@@ -59,10 +60,13 @@ def download_audio(url, fname, explicit):
 
 def begin_playlist_download():
     for track in spotifyinst.playlist_tracks(playlist_URI)["items"]:
-        sleep(1)
-        print("sleeping")
         tname = track["track"]["name"]
         artname = track["track"]["artists"][0]["name"]
+
+        if skip_already_downloaded:
+            if (os.path.isfile(f"./{playlistName}/{tname} - {artname}.mp3")) or (os.path.isfile(f"./{playlistName}/{tname} - {artname}{explicit_tag}.mp3")):
+                print(f"Skipping {tname} by {artname}, it already exists")
+                continue
 
         srch = pytube.Search(f"{tname} by {artname}")
         searchResults = []
