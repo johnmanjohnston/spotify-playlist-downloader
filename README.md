@@ -11,11 +11,13 @@ The first result is then downloaded.
 ## Setup/Installation
 (All the installation commands assume you're using Bash. If you're using PowerShell, replace `python3` with `py` and you should recieve the same result)
 * Install Python 3.x (Python 3.8 was used in development)
-* Install `pytube` (to install, run `python3 -m pip install pytube`)
-* Install `spotipy` (to install, run `python3 -m pip install spotipy`)
-* Install `dotenv` (to install, run `python3 -m pip install python-dotenv`)
 * Clone this repo
 * Head over to your Spotify Developer Dashboard, and create a new app, and assign your Client ID and Client Secret in the `.env` file
+* cd into the files and install the requirements:
+```bash
+cd spotify-playlist-downloader
+pip install -r requirements.txt
+```
 
 You should now be able to run `main.py` and download your playlist for free
 
