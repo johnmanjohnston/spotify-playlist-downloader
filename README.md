@@ -1,4 +1,4 @@
-# spotify-playlist-downloder
+# spotify-playlist-downloader
 Free Spotify playlist downloader, made using Python
 
 ## Introduction
