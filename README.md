@@ -9,7 +9,7 @@ The songs from the playlist are analyzed, and then we use `pytube` to search for
 The first result is then downloaded.
 
 ## Setup/Installation
-(All the installation commands assume you're using Bash. If you're using PowerShell, replace `python3` with `py` and you should recieve the same result)
+(All the installation commands assume you're using Bash. If you're using PowerShell, like a fricking muppet, replace `python3` with `py` and you should recieve the same result)
 * Install Python 3.x (Python 3.8 was used in development)
 * Clone this repo
 * Head over to your Spotify Developer Dashboard, and create a new app, and assign your Client ID and Client Secret in the `.env` file
