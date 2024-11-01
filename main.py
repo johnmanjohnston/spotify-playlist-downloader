@@ -1,10 +1,11 @@
+import moviepy.editor
+import moviepy.video
 import spotipy
 import pytube
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import dotenv
-import datetime
-from time import sleep
+import moviepy
 
 dotenv.load_dotenv()
 downloaded_songs = []
@@ -51,8 +52,13 @@ def download_audio(url, fname, explicit):
     processedfname = fname
     if explicit: processedfname += explicit_tag
 
-    stream[0].download(f"./{playlistName}", filename=f"{processedfname}.mp3")
-   
+    stream[0].download(f"./{playlistName}", filename=f"{processedfname}.mp4")
+    print("Extracting audio...")
+    vid = moviepy.editor.AudioFileClip(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp4"))
+    vid.write_audiofile(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp3"), logger=None)
+    os.remove(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp4"))
+    vid.close()
+
     song_index = downloaded_songs.index(f"{fname} - Downloading...")
     downloaded_songs[song_index] = f"{fname} - Downloaded!"
     clr_trmnl(log_cur_progress)
