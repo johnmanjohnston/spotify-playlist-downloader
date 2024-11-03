@@ -27,6 +27,7 @@ def init():
     global CLIENTSECRET
     global playlist_link
     global playlistName
+    global ff
 
     CLIENTID = os.getenv("SPOTIFY_CLIENTID")
     CLIENTSECRET = os.getenv("SPOTIFY_CLIENTSECRET")
@@ -34,6 +35,9 @@ def init():
     playlistName = input("Enter the save directory: ")
     playlist_link = input("Enter the playlist URL: ")
 
+    while True:
+        ff = input("Enter file format (wav or mp3): ")
+        if ff == "wav" or ff == "mp3": break
 
 def auth():
     global spotifyinst
@@ -54,10 +58,15 @@ def download_audio(url, fname, explicit):
 
     stream[0].download(f"./{playlistName}", filename=f"{processedfname}.mp4")
     print("Extracting audio...")
-    vid = moviepy.editor.AudioFileClip(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp4"))
-    vid.write_audiofile(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp3"), logger=None)
+
+    if ff == "mp3":
+        vid = moviepy.editor.AudioFileClip(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp4"))
+        vid.write_audiofile(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp3"), logger=None)
+        vid.close()
+    elif ff == "wav":
+        os.system(f"ffmpeg -i '{os.path.join(os.getcwd(), playlistName, f'{processedfname}.mp4')}' -vn -acodec pcm_s16le -ar 44100 -ac 2  '{os.path.join(os.getcwd(), playlistName, f'{processedfname}.wav')}'")
+
     os.remove(os.path.join(os.getcwd(), playlistName, f"{processedfname}.mp4"))
-    vid.close()
 
     song_index = downloaded_songs.index(f"{fname} - Downloading...")
     downloaded_songs[song_index] = f"{fname} - Downloaded!"
