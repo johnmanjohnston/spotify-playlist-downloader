@@ -19,6 +19,16 @@ cd spotify-playlist-downloader
 pip install -r requirements.txt
 ```
 
+IMPORTANT: Due to a bug (faulty regex) in one of the dependencies (pytube), songs won't download. To fix:
+- in pytube's source, locate `cipher.py`
+- replace the entries of `function_patterns`, with
+  ```python
+  r'a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&.*?\|\|\s*([a-z]+)',
+  r'\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])\([a-z]\)',
+  ```
+
+(solution found at https://github.com/pytube/pytube/issues/1750)
+
 You should now be able to run `main.py` and download your playlist for free
 
 ## Demo
